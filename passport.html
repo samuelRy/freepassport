@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Demande de Passeport</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            
+            background-image: url("static/a5eed73115cec86e5f8c8721828d9783_2.jpg");
+            color: #ccbaba;
+            background-size: contain;
+           
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 5px;
+            border-radius: 3px;
+            border: 2px solid white ;
+        }
+        div img{
+          float: left;
+          border: 2px #4200a4 outset;
+          margin-right: 4px;
+          width:25% ;height:20%
+        }
+        h2{
+          position: top;
+          font-style: italic;
+          margin: 0px;
+          font-size: 150%;
+          text-decoration: underline;
+          color: black ;
+          font-family: "Times New Roman";
+        }
+        label{
+          background-color:rgb(10, 10,10,.4)
+        }
+        input{
+          background-color:rgb(10, 10,10,.6)
+        }
+        #passportForm{
+          display: block;
+          position: bottom;
+          margin-top: 40px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+        .nb{
+            position: relative;
+            left : 35%;
+            background: linear-gradient(45deg, green, aqua);
+            position :relative;
+            border: .6px gray dashed;
+            border-radius: 10px;
+            box-shadow: 2px 2px 3px black;
+          }
+          .nb:focus{
+            box-shadow: 1px 1px 0px gray;
+          }
+    </style>
+</head>
+<body>
+    <div class="container">
+      <img src="static/82f57874441b8983b49ba0aeceffb4ed.jpg" />
+        <h2>Formulaire de Demande de Passeport</h2>
+        <form id="passportForm">
+            <div class="form-group">
+                <label for="name">Nom complet:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date de naissance:</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Adresse:</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Adresse email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Numéro de téléphone:</label>
+                <span style="display: inline-block; font-weight: bold;font-size: 25px">+229</span>
+                <input style="width: 250px" type="tel" id="phone" name="phone" pattern="[0-9]{8}" required>
+            </div>
+            <div class="form-group">
+                <button class="nb" type="submit">Soumettre</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('passportForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            // Stocker les données dans sessionStorage
+            sessionStorage.setItem('formData', JSON.stringify(data));
+
+            // Rediriger vers la page de résultat
+            window.location.href = 'results.html';
+        });
+    </script>
+</body>
+</html>

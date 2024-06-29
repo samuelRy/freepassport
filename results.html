@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats de la Demande de Passeport</title>
+    <link rel="stylesheet" href="results.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Informations Soumises</h2>
+        <div id="output"></div>
+        <button id="redirectButton">Valider l'envoi</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Récupérer les données depuis sessionStorage
+            const formData = JSON.parse(sessionStorage.getItem('formData'));
+
+            // Afficher les données si elles existent
+            if (formData) {
+                const text = `
+                    <p><strong>Nom complet:</strong> ${formData.name}</p>
+                    <p><strong>Date de naissance:</strong> ${formData.dob}</p>
+                    <p><strong>Adresse:</strong> ${formData.address}</p>
+                    <p><strong>Email:</strong> ${formData.email}</p>
+                    <p><strong>Numéro de téléphone:</strong> ${formData.phone}</p>
+                `;
+                document.getElementById('output').innerHTML = text;
+
+                document.getElementById('redirectButton').addEventListener('click', function() {
+                    // Préparer les données pour l'envoi
+                    const data = new URLSearchParams();
+                    for (const key in formData) {
+                        data.append(key, formData[key]);
+                    }
+
+                    // Convertir les données en une chaîne de caractères
+                    const textData = Object.keys(formData).map(key => `${key}: ${formData[key]}`).join('\n');
+
+                    // Envoyer les données à saveToFile.php
+                    fetch('saveToFile.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `text=${encodeURIComponent(textData)}`
+                    })
+                    .then(response => response.text())
+                    .then(result => {
+                        console.log(result);
+                        // Redirection vers la page de succès
+                        window.location.href = 'success.html';
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                    });
+                });
+            } else {
+                document.getElementById('output').innerHTML = '<p>Aucune donnée soumise trouvée.</p>';
+            }
+        });
+    </script>
+    <a href="Passport.html" style="font-size: 3em; position: fixed; left: 0; bottom: 2em">&#8592;</a>
+</body>
+</html>
